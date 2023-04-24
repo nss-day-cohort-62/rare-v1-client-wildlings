@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getAllCategories } from "../../managers/CategoriesManager";
+import Categories from "./Categories";
 
 export const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
@@ -9,13 +10,7 @@ export const CategoriesList = () => {
   }, [])
 
   return (
-    categories.map((category) => (
-      <>
-        <h1 key={category.id}>{category.label}</h1>
-        <button>Edit</button>
-        <button>Delete</button>
-      </>
-    ))
+    categories.map((category) => <Categories key={category.id} category={category} />)
   );
 
 }
