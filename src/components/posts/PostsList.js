@@ -11,11 +11,12 @@ export const PostsList = () => {
     });
   }, []);
 
-  return (
-    <>
-      {posts.map((post) => (
-        <Posts key={post.id} post={post} />
-      ))}
-    </>
-  );
+  return <>
+  {
+    posts.map(
+        (post) => <Posts key={post.id} post={post}/>        
+    )
+  }
+  </>
+
 };

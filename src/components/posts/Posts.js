@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 export const Posts = ({ post }) => {
   return (
     <div>
-      <h1>{post.title}</h1>
-      <h2>{post.content}</h2>
-      <h3>{post.date}</h3>
+      <Link to={`/posts/${post.id}`}>{post.title}</Link>
+      <h2>{post.category.label}</h2>
+      <h3>{post.user.first_name} {post.user.last_name}</h3>
     </div>
   );
 };
