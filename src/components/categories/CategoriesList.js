@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { getAllCategories } from "../../managers/CategoriesManager";
+import { CategoryForm } from "./CategoryForm";
+import Categories from "./Categories";
 
 export const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     getAllCategories().then((data) => setCategories(data));
-  }, [])
+  }, []);
 
   return (
-    categories.map((category) => (
-      <>
-        <h1 key={category.id}>{category.label}</h1>
-        <button>Edit</button>
-        <button>Delete</button>
-      </>
-    ))
+    <div className="is-flex is-justify-content-space-between">
+      <div>
+        {categories.map((category) => (
+          <Categories key={category.id} category={category} />
+        ))}
+      </div>
+      <CategoryForm />
+    </div>
   );
-
-}
+};
