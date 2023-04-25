@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import { createCategory } from "../../managers/CategoriesManager";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createTag } from "../../managers/TagsManager";
 
-export const CategoryForm = ({ refreshPage }) => {
+export const TagForm = ({ refreshPage }) => {
   const navigate = useNavigate();
   const initialState = {
     label: "",
@@ -20,23 +20,23 @@ export const CategoryForm = ({ refreshPage }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    createCategory(formInput)
+    createTag(formInput)
       .then(() => {
         refreshPage();
       })
       .then(() => {
         setFormInput(initialState);
-        navigate("/categories");
+        navigate("/tags");
       });
   };
 
   return (
-    <form className="categoryForm" onSubmit={handleSubmit}>
+    <form className="tagForm" onSubmit={handleSubmit}>
       <fieldset>
-        <h2>New Category</h2>
+        <h2>New Tag</h2>
         <input
           type="text"
-          placeholder="Category label"
+          placeholder="Tag label"
           name="label"
           value={formInput.label}
           onChange={handleChange}
