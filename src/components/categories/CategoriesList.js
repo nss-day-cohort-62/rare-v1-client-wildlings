@@ -6,8 +6,11 @@ import Categories from "./Categories";
 export const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
+  const getAllTheCategories = () => {
     getAllCategories().then((data) => setCategories(data));
+  }
+  useEffect(() => {
+    getAllTheCategories();
   }, []);
 
   return (
@@ -17,7 +20,7 @@ export const CategoriesList = () => {
           <Categories key={category.id} category={category} />
         ))}
       </div>
-      <CategoryForm />
+      <CategoryForm refreshPage={getAllTheCategories} />
     </div>
   );
 };

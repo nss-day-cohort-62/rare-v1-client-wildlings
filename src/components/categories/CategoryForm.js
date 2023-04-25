@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { createCategory } from "../../managers/CategoriesManager";
 import { useState } from "react";
 
-export const CategoryForm = () => {
+export const CategoryForm = ({ refreshPage }) => {
   const navigate = useNavigate();
-  const [formInput, setFormInput] = useState({
+  const initialState = {
     label: "",
-  });
+  }
+  const [formInput, setFormInput] = useState(initialState);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,8 +21,11 @@ export const CategoryForm = () => {
     e.preventDefault();
 
     createCategory(formInput).then(() => {
+      refreshPage()
+    }).then(() => {
+      setFormInput(initialState);
       navigate("/categories");
-    });
+    })
   };
 
   return (
