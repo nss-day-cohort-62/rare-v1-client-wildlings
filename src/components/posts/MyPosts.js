@@ -1,25 +1,35 @@
 import { useEffect, useState } from "react";
-import { getMyPosts } from "../../managers/PostsManager";
+import { getMyPosts, deletePost } from "../../managers/PostsManager";
 import { Posts } from "./Posts";
+import { useNavigate } from "react-router-dom";
 
 export const MyPosts = () => {
   const [myPosts, setMyPosts] = useState([]);
-
+  const navigate = useNavigate();
   const userId = JSON.parse(localStorage.getItem("auth_token"));
 
-  useEffect(() => {
+  const getAllMyPosts = () => {
     getMyPosts(userId).then((data) => setMyPosts(data));
-  }, []);
+  }
 
+  useEffect(() => {
+    getAllMyPosts();
+  }, [userId]);
+
+  const deleteDat = (postId) => {
+    deletePost(postId).then(() => {
+      getAllMyPosts();
+    })
+  }
   return (
     <>
       {myPosts.map((post) => {
         return (
-          <>
+          <div key={post.id}>
             <Posts key={post.id} post={post} />
-            <button>Edit</button>
-            <button>Delete</button>
-          </>
+            <button key={`edit--${post.id}`} type="button" onClick={() => { navigate(`/edit_post/${post.id}`) }}>Edit</button>
+            <button key={`delete--${post.id}`} type="button" onClick={() => { deleteDat(post.id) }}>Delete</button>
+          </div>
         );
       })}
     </>

@@ -9,7 +9,7 @@ export const Post = () => {
 
   useEffect(() => {
     getSinglePost(post_id).then((data) => setPost(data));
-  }, []);
+  }, [post_id]);
 
   return (
     <>

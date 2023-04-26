@@ -23,3 +23,19 @@ export const createPost = (newPost) => {
     body: JSON.stringify(newPost),
   }).then((res) => res.json());
 };
+
+export const deletePost = (postId) => {
+  return fetch(`http://localhost:8088/posts/${postId}`, {
+    method: "DELETE",
+  })
+}
+
+export const updatePost = (postObj) => {
+  return fetch(`http://localhost:8088/posts/${postObj.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(postObj),
+  })
+};

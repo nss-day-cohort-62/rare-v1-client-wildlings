@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getAllCategories } from "../../managers/CategoriesManager";
-import { createPost } from "../../managers/PostsManager";
+import { createPost, getSinglePost, updatePost } from "../../managers/PostsManager";
 
 export const PostForm = () => {
   const navigate = useNavigate();
@@ -17,10 +17,16 @@ export const PostForm = () => {
   const [formInput, setFormInput] = useState(initialState);
   const [categories, setCategories] = useState([]);
   const [postId, setPostId] = useState(0);
+  const { post_id } = useParams();
 
   useEffect(() => {
     getAllCategories().then((data) => setCategories(data));
-  }, []);
+    if (post_id) {
+      getSinglePost(post_id).then((postObj) => {
+        setFormInput(postObj)
+      })
+    }
+  }, [post_id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,14 +39,20 @@ export const PostForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let newPost = {
-      ...formInput,
-      category_id: parseInt(formInput.category_id),
-      user_id: parseInt(userObj),
-      publication_date: new Date(),
-    };
+    if (post_id) {
+      updatePost(formInput).then(() => navigate(`/posts/${post_id}`))
+    } else {
+      let newPost = {
+        ...formInput,
+        category_id: parseInt(formInput.category_id),
+        user_id: parseInt(userObj),
+        publication_date: new Date(),
+      };
+      createPost(newPost).then((newPost) => navigate(`/posts/${newPost.id}`));
+    }
 
-    createPost(newPost).then((newPost) => navigate(`/posts/${newPost.id}`));
+
+
   };
 
   return (
@@ -76,7 +88,7 @@ export const PostForm = () => {
         >
           <option value="0">Select a Category</option>
           {categories.map((category) => (
-            <option value={category.id}>{category.label}</option>
+            <option key={category.id} value={category.id}>{category.label}</option>
           ))}
         </select>
       </fieldset>
