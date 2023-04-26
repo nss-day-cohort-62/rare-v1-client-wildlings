@@ -7,6 +7,7 @@ import { Post } from "../components/posts/Post";
 import { CategoriesList } from "../components/categories/CategoriesList";
 import { TagsList } from "../components/tags/TagsList";
 import { PostForm } from "../components/posts/PostForm";
+import { MyPosts } from "../components/posts/MyPosts";
 
 export const ApplicationViews = ({ token, setToken }) => {
   return (
@@ -20,6 +21,7 @@ export const ApplicationViews = ({ token, setToken }) => {
           <Route path="/categories" element={<CategoriesList />} />
           <Route path="/tags" element={<TagsList />} />
           <Route path="/new-post" element={<PostForm />} />
+          <Route path="/my_posts" element={<MyPosts />} />
         </Route>
       </Routes>
     </>

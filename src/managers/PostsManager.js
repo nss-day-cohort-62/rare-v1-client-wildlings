@@ -8,6 +8,12 @@ export const getSinglePost = (post_id) => {
   );
 };
 
+export const getMyPosts = (userId) => {
+  return fetch(`http://localhost:8088/posts/?_user=${userId}`).then((res) =>
+    res.json()
+  );
+};
+
 export const createPost = (newPost) => {
   return fetch(`http://localhost:8088/posts`, {
     method: "POST",
