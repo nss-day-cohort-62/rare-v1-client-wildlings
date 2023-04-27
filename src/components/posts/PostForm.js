@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAllCategories } from "../../managers/CategoriesManager";
 import { createPost, getSinglePost, updatePost } from "../../managers/PostsManager";
+import { getAllTags } from "../../managers/TagsManager";
 
 export const PostForm = () => {
   const navigate = useNavigate();
@@ -16,15 +17,19 @@ export const PostForm = () => {
   const userObj = JSON.parse(localStorage.getItem("auth_token"));
   const [formInput, setFormInput] = useState(initialState);
   const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [postId, setPostId] = useState(0);
   const { post_id } = useParams();
 
   useEffect(() => {
     getAllCategories().then((data) => setCategories(data));
+    getAllTags().then((data)=> setTags(data));
     if (post_id) {
       getSinglePost(post_id).then((postObj) => {
         setFormInput(postObj)
-      })
+        setSelectedTags()
+      }) 
     }
   }, [post_id]);
 
@@ -53,6 +58,12 @@ export const PostForm = () => {
 
 
 
+  };
+
+  const handleCheckboxChange = (event) => {
+    const copy = [...selectedTags]
+    copy.push(parseInt(event.target.id))
+    setSelectedTags(copy)
   };
 
   return (
@@ -92,6 +103,17 @@ export const PostForm = () => {
           ))}
         </select>
       </fieldset>
+      <div>
+        {
+          tags.map((tag)=> {
+            return <>
+            <label htmlFor="type">{tag.label}</label>
+            <input type="checkbox" label={tag.label} id={tag.id} onChange={handleCheckboxChange}/>
+            </>
+          
+          })
+        }
+      </div>
       <button type="submit">Submit</button>
     </form>
   );
