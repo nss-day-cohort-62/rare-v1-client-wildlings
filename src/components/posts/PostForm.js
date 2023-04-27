@@ -53,7 +53,14 @@ export const PostForm = () => {
     e.preventDefault();
 
     if (post_id) {
-      updatePost(formInput).then(() => navigate(`/posts/${post_id}`));
+      let newPost = {
+        ...formInput,
+        category_id: parseInt(formInput.category_id),
+        user_id: parseInt(userObj),
+        publication_date: new Date(),
+        tag: selectedTags,
+      };
+      updatePost(newPost).then(() => navigate(`/posts/${post_id}`));
     } else {
       let newPost = {
         ...formInput,
@@ -68,23 +75,15 @@ export const PostForm = () => {
   };
 
   const handleCheckboxChange = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const copy = [...selectedTags];
 
-    if (copy.includes(event.target.id)) {
+    if (copy.includes(parseInt(event.target.id))) {
       const newCopy = copy.filter((obj) => obj !== parseInt(event.target.id))
       setSelectedTags(newCopy)
     } else {
       copy.push(parseInt(event.target.id));
       setSelectedTags(copy);
-    }
-  };
-
-  const handleChecks = (checkboxId) => {
-    if (selectedTags.includes(checkboxId)) {
-      return "checked";
-    } else {
-      return "";
     }
   };
 
@@ -129,17 +128,24 @@ export const PostForm = () => {
       </fieldset>
       <div>
         {tags.map((tag) => {
+          // Check if the tag is already selected by looking for its ID in the selectedTags array
+          const isChecked = selectedTags.includes(tag.id);
+
+          // Create an object with the checkbox props, including the "checked" attribute based on the isChecked variable
+          const checkboxProps = {
+            type: "checkbox",
+            id: tag.id,
+            label: tag.label,
+            checked: isChecked,
+            onChange: handleCheckboxChange,
+          };
+
+          // Render the label and input elements, passing the checkbox props object to the input element using the spread operator
           return (
-            <>
-              <label htmlFor="type">{tag.label}</label>
-              <input
-                type="checkbox"
-                {handleChecks(tag.id)}
-                label={tag.label}
-                id={tag.id}
-                onChange={handleCheckboxChange}
-              />
-            </>
+            <div>
+              <label htmlFor={tag.id}>{tag.label}</label>
+              <input {...checkboxProps} />
+            </div>
           );
         })}
       </div>
