@@ -1,9 +1,11 @@
+const url = "http://localhost:8000"
+
 export const getAllCategories = () => {
-  return fetch("http://localhost:8088/categories").then((res) => res.json());
+  return fetch(`${url}/categories`).then((res) => res.json());
 };
 
 export const createCategory = (categoryToSubmit) => {
-  return fetch("http://localhost:8088/categories", {
+  return fetch(`${url}/categories`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
