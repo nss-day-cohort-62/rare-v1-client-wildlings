@@ -1,8 +1,15 @@
 const url = "http://localhost:8000"
 
+const token = localStorage.getItem("auth_token")
+
 export const getAllTags = () => {
-  return fetch(`${url}/tags`).then((res) => res.json());
-};
+  return fetch(`${url}/tags`, {
+    headers: {
+      Authorization: `Token ${token}`
+    }
+  })
+    .then(res => res.json())
+}
 
 export const createTag = (newTag) => {
   return fetch(`${url}/tags`, {
