@@ -1,7 +1,10 @@
 const url = "http://localhost:8000"
 
 export const getAllCategories = () => {
-  return fetch(`${url}/categories`).then((res) => res.json());
+  return fetch(`${url}/categories`, {
+    headers: {
+      Authorization: `Token ${localStorage.getItem("auth_token")}`,
+    }}).then((res) => res.json());
 };
 
 export const createCategory = (categoryToSubmit) => {
