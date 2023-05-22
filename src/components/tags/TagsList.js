@@ -6,8 +6,12 @@ import { TagForm } from "./TagForm";
 export const TagsList = () => {
   const [tags, setTags] = useState([]);
 
+  
   const getAllTheTags = () => {
-    getAllTags().then((data) => setTags(data));
+    getAllTags().then((data) => {
+      const sortedTags = data.sort((a, b) => a.label.localeCompare(b.label));
+      setTags(sortedTags);
+    });
   };
 
   useEffect(() => {
