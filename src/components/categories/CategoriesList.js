@@ -7,7 +7,9 @@ export const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
 
   const getAllTheCategories = () => {
-    getAllCategories().then((data) => setCategories(data));
+    getAllCategories().then((data) => {
+      setCategories(data)
+    });
   }
   useEffect(() => {
     getAllTheCategories();
