@@ -18,4 +18,12 @@ export const createCategory = (categoryToSubmit) => {
   }).then((res) => res.json());
 };
 
+export const deleteCategory = (categoryId) => {
+  return fetch(`http://localhost:8000/categories/${categoryId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Token ${localStorage.getItem("auth_token")}`
+    }
+  });
+};
 
