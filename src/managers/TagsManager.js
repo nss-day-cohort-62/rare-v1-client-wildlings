@@ -16,7 +16,18 @@ export const createTag = (newTag) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Token ${token}`
     },
     body: JSON.stringify(newTag),
   }).then((res) => res.json());
+};
+
+export const updateTag = (tag) => {
+  return fetch(`http://localhost:8000/tags/${tag.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(tag),
+  });
 };
