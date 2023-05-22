@@ -11,8 +11,11 @@ export const createCategory = (categoryToSubmit) => {
   return fetch(`${url}/categories`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      Authorization: `Token ${localStorage.getItem("auth_token")}`,
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(categoryToSubmit),
   }).then((res) => res.json());
 };
+
+
