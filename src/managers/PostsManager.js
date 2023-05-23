@@ -16,8 +16,8 @@ export const getSinglePost = (post_id) => {
   }).then((response) => response.json());
 };
 
-export const getMyPosts = (userId) => {
-  return fetch(`${url}/posts/?_user=${userId}`, {
+export const getMyPosts = () => {
+  return fetch(`${url}/posts?_user=user`, {
     headers: {
       Authorization: `Token ${localStorage.getItem("auth_token")}`,
     },
@@ -37,6 +37,9 @@ export const createPost = (newPost) => {
 export const deletePost = (postId) => {
   return fetch(`http://localhost:8000/posts/${postId}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Token ${localStorage.getItem("auth_token")}`
+    }
   });
 };
 
