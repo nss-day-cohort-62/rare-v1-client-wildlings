@@ -15,7 +15,8 @@ export const Post = () => {
     <>
       <h1>{post.title}</h1>
       <div>
-        {post?.user?.first_name} {post?.user?.last_name}
+        {/* {post?.user?.first_name} {post?.user?.last_name} */}
+        {post.author?.full_name}
       </div>
       <div>{post?.category?.label}</div>
       <div>{post.publication_date}</div>
