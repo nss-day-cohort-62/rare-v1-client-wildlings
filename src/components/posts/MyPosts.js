@@ -6,15 +6,15 @@ import { useNavigate } from "react-router-dom";
 export const MyPosts = () => {
   const [myPosts, setMyPosts] = useState([]);
   const navigate = useNavigate();
-  const userId = JSON.parse(localStorage.getItem("auth_token"));
+  
 
   const getAllMyPosts = () => {
-    getMyPosts(userId).then((data) => setMyPosts(data));
+    getMyPosts().then((data) => setMyPosts(data));
   }
 
   useEffect(() => {
     getAllMyPosts();
-  }, [userId]);
+  }, []);
 
   const deleteDat = (postId) => {
     deletePost(postId).then(() => {
