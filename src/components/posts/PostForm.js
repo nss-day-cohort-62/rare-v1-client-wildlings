@@ -11,19 +11,18 @@ import { getAllTags } from "../../managers/TagsManager";
 export const PostForm = () => {
   const navigate = useNavigate();
   const initialState = {
-    user_id: 0,
     category_id: 0,
     title: "",
     publication_date: "",
     content: "",
+    // Image is hard coded for now. Can be changed later. Not needed for CRUD.
+    image_url: "https://images.squarespace-cdn.com/content/v1/5994d06915d5db843587ce50/1552451693608-VNZZIB2N5ZZYSJFB14E7/post.jpg"
   };
 
-  const userObj = JSON.parse(localStorage.getItem("auth_token"));
   const [formInput, setFormInput] = useState(initialState);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
-  const [postId, setPostId] = useState(0);
   const { post_id } = useParams();
 
   useEffect(() => {
@@ -31,11 +30,18 @@ export const PostForm = () => {
     getAllTags().then((data) => setTags(data));
     if (post_id) {
       getSinglePost(post_id).then((postObj) => {
-        setFormInput(postObj);
+        setFormInput((prevState) => ({
+          // spreads into the obj to set the category. Is there a cleaner way?
+          ...prevState,
+          id: postObj.id,
+          category_id: postObj.category?.id,
+          title: postObj.title,
+          publication_date: postObj.publication_date,
+          content: postObj.content,
+          image_url: postObj.image_url
+        }));
         let editPostTags = [];
-        postObj.tag.map((t) => {
-          editPostTags.push(t.id);
-        });
+        postObj.tag?.map((t) => editPostTags.push(t.id));
         setSelectedTags(editPostTags);
       });
     }
@@ -56,8 +62,6 @@ export const PostForm = () => {
       let newPost = {
         ...formInput,
         category_id: parseInt(formInput.category_id),
-        user_id: parseInt(userObj),
-        publication_date: new Date(),
         tag: selectedTags,
       };
       updatePost(newPost).then(() => navigate(`/posts/${post_id}`));
@@ -65,8 +69,7 @@ export const PostForm = () => {
       let newPost = {
         ...formInput,
         category_id: parseInt(formInput.category_id),
-        user_id: parseInt(userObj),
-        publication_date: new Date(),
+        publication_date: new Date().toISOString().split('T')[0],
         tag: selectedTags,
       };
       console.log(newPost);
@@ -75,7 +78,6 @@ export const PostForm = () => {
   };
 
   const handleCheckboxChange = (event) => {
-    // event.preventDefault();
     const copy = [...selectedTags];
 
     if (copy.includes(parseInt(event.target.id))) {
@@ -142,7 +144,7 @@ export const PostForm = () => {
 
           // Render the label and input elements, passing the checkbox props object to the input element using the spread operator
           return (
-            <div>
+            <div key={tag.id}>
               <label htmlFor={tag.id}>{tag.label}</label>
               <input {...checkboxProps} />
             </div>
