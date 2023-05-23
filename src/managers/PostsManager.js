@@ -29,6 +29,7 @@ export const createPost = (newPost) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Token ${localStorage.getItem("auth_token")}`,
     },
     body: JSON.stringify(newPost),
   }).then((res) => res.json());

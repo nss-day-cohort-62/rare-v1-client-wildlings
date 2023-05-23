@@ -11,19 +11,19 @@ import { getAllTags } from "../../managers/TagsManager";
 export const PostForm = () => {
   const navigate = useNavigate();
   const initialState = {
-    user_id: 0,
+    // user_id: 0,
     category_id: 0,
     title: "",
     publication_date: "",
     content: "",
   };
 
-  const userObj = JSON.parse(localStorage.getItem("auth_token"));
+  // const userObj = JSON.parse(localStorage.getItem("auth_token"));
   const [formInput, setFormInput] = useState(initialState);
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
-  const [postId, setPostId] = useState(0);
+  // const [postId, setPostId] = useState(0);
   const { post_id } = useParams();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export const PostForm = () => {
       let newPost = {
         ...formInput,
         category_id: parseInt(formInput.category_id),
-        user_id: parseInt(userObj),
+        // user_id: parseInt(userObj),
         publication_date: new Date(),
         tag: selectedTags,
       };
@@ -65,7 +65,7 @@ export const PostForm = () => {
       let newPost = {
         ...formInput,
         category_id: parseInt(formInput.category_id),
-        user_id: parseInt(userObj),
+        // user_id: parseInt(userObj),
         publication_date: new Date(),
         tag: selectedTags,
       };
@@ -142,7 +142,7 @@ export const PostForm = () => {
 
           // Render the label and input elements, passing the checkbox props object to the input element using the spread operator
           return (
-            <div>
+            <div key={tag.id}>
               <label htmlFor={tag.id}>{tag.label}</label>
               <input {...checkboxProps} />
             </div>
