@@ -11,11 +11,12 @@ import { getAllTags } from "../../managers/TagsManager";
 export const PostForm = () => {
   const navigate = useNavigate();
   const initialState = {
-    // user_id: 0,
     category_id: 0,
     title: "",
     publication_date: "",
     content: "",
+    // Image is hard coded for now. Can be changed later. Not needed for CRUD.
+    image_url: "https://images.squarespace-cdn.com/content/v1/5994d06915d5db843587ce50/1552451693608-VNZZIB2N5ZZYSJFB14E7/post.jpg"
   };
 
   // const userObj = JSON.parse(localStorage.getItem("auth_token"));
@@ -23,7 +24,6 @@ export const PostForm = () => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
-  // const [postId, setPostId] = useState(0);
   const { post_id } = useParams();
 
   useEffect(() => {
@@ -56,7 +56,6 @@ export const PostForm = () => {
       let newPost = {
         ...formInput,
         category_id: parseInt(formInput.category_id),
-        // user_id: parseInt(userObj),
         publication_date: new Date(),
         tag: selectedTags,
       };
@@ -65,8 +64,7 @@ export const PostForm = () => {
       let newPost = {
         ...formInput,
         category_id: parseInt(formInput.category_id),
-        // user_id: parseInt(userObj),
-        publication_date: new Date(),
+        publication_date: new Date().toISOString().split('T')[0],
         tag: selectedTags,
       };
       console.log(newPost);
