@@ -49,6 +49,7 @@ export const updatePost = (postObj) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Token ${localStorage.getItem("auth_token")}`,
     },
     body: JSON.stringify(postObj),
   });
