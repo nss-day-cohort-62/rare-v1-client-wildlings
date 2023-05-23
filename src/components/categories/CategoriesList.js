@@ -11,6 +11,7 @@ export const CategoriesList = () => {
       setCategories(data)
     });
   }
+  
   useEffect(() => {
     getAllTheCategories();
   }, []);
@@ -19,7 +20,7 @@ export const CategoriesList = () => {
     <div className="is-flex is-justify-content-space-between">
       <div>
         {categories.map((category) => (
-          <Categories key={category.id} category={category} />
+          <Categories key={category.id} category={category} refresh={getAllTheCategories} />
         ))}
       </div>
       <CategoryForm refreshPage={getAllTheCategories} />
