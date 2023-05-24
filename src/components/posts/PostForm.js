@@ -41,7 +41,7 @@ export const PostForm = () => {
           image_url: postObj.image_url
         }));
         let editPostTags = [];
-        postObj.tag?.map((t) => editPostTags.push(t.id));
+        postObj.tags?.map((t) => editPostTags.push(t.id));
         setSelectedTags(editPostTags);
       });
     }
@@ -62,7 +62,7 @@ export const PostForm = () => {
       let newPost = {
         ...formInput,
         category_id: parseInt(formInput.category_id),
-        tag: selectedTags,
+        tags: selectedTags,
       };
       updatePost(newPost).then(() => navigate(`/posts/${post_id}`));
     } else {
@@ -70,7 +70,7 @@ export const PostForm = () => {
         ...formInput,
         category_id: parseInt(formInput.category_id),
         publication_date: new Date().toISOString().split('T')[0],
-        tag: selectedTags,
+        tags: selectedTags,
       };
       console.log(newPost);
       createPost(newPost).then((newPost) => navigate(`/posts/${newPost.id}`));

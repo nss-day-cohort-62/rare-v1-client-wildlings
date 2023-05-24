@@ -21,6 +21,10 @@ export const Post = () => {
       <div>{post?.category?.label}</div>
       <div>{post.publication_date}</div>
       <div>{post.content}</div>
+      <div>{
+      post?.tags?.map((tag) => {
+        return tag.label
+      })}</div>
     </>
   );
 };
